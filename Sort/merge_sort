@@ -1,0 +1,40 @@
+#include "../dsa.h"
+
+void merge(int array[], int start, int mid, int end) {
+    int left_size = mid - start + 1;
+    int right_size = end - mid;
+
+    // Create temporary arrays
+    int* left_part = (int*)malloc(left_size * sizeof(int));
+    int* right_part = (int*)malloc(right_size * sizeof(int));
+
+    for (int i = 0; i < left_size; i++) left_part[i] = array[start + i];
+    for (int j = 0; j < right_size; j++) right_part[j] = array[mid + 1 + j];
+
+    int i = 0, j = 0, k = start;
+
+    // Merge the temp arrays back into original
+    while (i < left_size && j < right_size) {
+        if (left_part[i] <= right_part[j]) {
+            array[k++] = left_part[i++];
+        } else {
+            array[k++] = right_part[j++];
+        }
+    }
+
+    // Pick up remaining elements
+    while (i < left_size) array[k++] = left_part[i++];
+    while (j < right_size) array[k++] = right_part[j++];
+
+    free(left_part);
+    free(right_part);
+}
+
+void merge_sort(int array[], int start, int end) {
+    if (start < end) {
+        int mid = start + (end - start) / 2;
+        merge_sort(array, start, mid);
+        merge_sort(array, mid + 1, end);
+        merge(array, start, mid, end);
+    }
+}

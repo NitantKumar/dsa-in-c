@@ -1,0 +1,7 @@
+cat <<EOT > .gitignore
+# Build outputs
+dsa_project
+a.out
+*.o
+*.dSYM/
+EOT
